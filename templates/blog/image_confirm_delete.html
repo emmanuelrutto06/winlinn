@@ -1,0 +1,24 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}} | {{category.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+{% if user.is_authenticated %}
+<form method="post">{% csrf_token %}
+  <div class="container">
+<p>Are you sure you want to delete "{{ object }}"?</p>
+  <button class="btn btn-danger" type="submit" value="Confirm">Confirm</button>
+  </div>
+</form>
+{% else %}
+<form>
+    <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <h3> Sorry , you are not Authorized!</h3>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

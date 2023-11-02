@@ -1,0 +1,59 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}} | {{topics.name}} {% endblock %}
+
+{% block custom_css %}
+.p_image{
+width:100%;
+height:auto;
+border-radius:20px;
+}
+.btn a{
+color:white;
+}
+.main_wrapper{
+height:100vh;
+}
+{% endblock %}
+{% block body%}
+
+
+<div class="col">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %}
+             class="{{ message.tags }}" {% endif %}>{{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<div class="row main_wrapper">
+    <div class="col-6 col-md-4">
+        {% if author.author_image %}
+        <img class="rounded-circle" width="304" height="236" src="{{ author.author_image.url }}" alt="">
+        {% else %}
+        <img class="p_image" src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png"
+             alt="">
+        {% endif %}
+    </div>
+    <div class="col-12 col-md-8">
+        <a href="{% url 'blog:author-edit' author.id %}">
+            <button class="btn btn-dark float-center btn-sm" >
+            <i class="far fa-edit" style="color:green"></i>
+                Edit profile
+            </button>
+
+        </a>
+        <h5><strong>Username</strong></h5> {{ author.user.username }}
+        <h5><strong>Name</strong></h5> {{ author.user.first_name }} {{ author.user.last_name }}
+        <h5><strong>Email</strong></h5> {{ author.user.email }}
+        <h5><strong>Title</strong></h5> {{ author.title }}
+        <h5><strong>Profile</strong></h5>
+        {{ author.profile }}
+
+    </div>
+
+</div>
+
+{% endblock %}

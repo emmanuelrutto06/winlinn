@@ -1,0 +1,47 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}}  | {{category.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+{% if user.is_authenticated %}
+
+<form>
+    <div class="container">
+        <ul>
+            <!-- Iterate over object_list -->
+            {% for object in object_list %}
+
+            <div class="row">
+                <div class="col-6">
+                    <p>{{object.name}}: ({{object.image}})</p>
+                </div>
+                <div class="col-6">
+                    <img src="{{object.image.url}}" alt="Smiley face" width="120" height="120">
+                    <button type="button" class="btn btn-secondary">
+                    <a href="{% url 'blog:image-update' object.id %}" class="button">Replace</a>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <a href="{% url 'blog:image-delete' object.id %}" class="button">Delete</a>
+                    </button>
+                </div>
+            </div>
+                <hr/>
+                <!-- If object_list is empty -->
+                {% empty %}
+                <li>No objects yet.</li>
+                {% endfor %}
+        </ul>
+    </div>
+</form>
+{% else %}
+<form>
+    <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <h3> Sorry , you are not Authorized!</h3>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

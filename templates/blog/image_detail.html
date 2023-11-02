@@ -1,0 +1,50 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}}  | {{category.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+{% if user.is_authenticated %}
+
+<form>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-6">
+                        {% if object.image %}
+                        <img class="rounded-circle" width="304" height="236" src="{{ object.image.url }}"
+                             alt="">
+                        {% else %}
+                        <img class="p_image"
+                             src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png"
+                             alt="">
+                        {% endif %}
+                    </div>
+                    <div class="col-6">
+                        <p><strong>Name:</strong>{{ object.name }}</p>
+                        <p><strong>Image:</strong>{{ object.image }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+
+            </div>
+        </div>
+        <p><strong>Image Address:</strong>{{ object }}</p>
+
+
+    </div>
+</form>
+{% else %}
+<form>
+    <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <h3> Sorry , you are not Authorized!</h3>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

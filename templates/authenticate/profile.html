@@ -1,0 +1,98 @@
+{% extends 'includes/base.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+<div class="content my-5">
+    <hr>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="color:#b51d17;">My Profile</h3>
+<!--                <button data-toggle="modal" data-target="#bioModal" data-id="{{ request.user.id }}"-->
+<!--                        type="button" class="btn btn-warning margin-bottom">-->
+<!--                    Edit Bio-->
+<!--                </button>-->
+                <button  type="button" class="btn btn-warning margin-bottom">
+                   <a href="{% url 'authentication:profile-update' request.user.id %}">Edit Bio</a>
+                </button>
+
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover table-bordered">
+
+                    <tbody>
+                    <tr>
+                        <th scope="row">Country</th>
+                        <td colspan="2">{{request.user.country}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td colspan="2">{{request.user.first_name}}  {{request.user.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Username</th>
+                        <td colspan="2">{{request.user.username}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td colspan="2" id="useremail">{{request.user.email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Password</th>
+                        <td>
+                            .......
+                            <button data-toggle="modal"  data-id="{{ request.user.id }}"
+                                    type="button" class="btn btn-danger margin-bottom">
+                                <a href="{% url 'reset_password' %}">Reset Password!</a>
+                            </button>
+
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">City</th>
+                        <td colspan="2">{{request.user.city}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address</th>
+                        <td colspan="2">{{request.user.address}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Zip Code</th>
+                        <td colspan="2">{{request.user.zip_code}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Timezone</th>
+                        <td colspan="2">{{request.user.time_zone}}
+                            <button type="button" class="btn btn-secondary btn-sm pull-right building-link">
+                                <a href="{% url 'authentication:timezone-update' request.user.id %}">Update Timezone</a>
+
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--  start update modal -->
+    <div class="modal fade bd-bio-modal-lg" tabindex="-1" role="dialog" id="bioModal"
+         aria-labelledby="myBioModalLabel" aria-hidden="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="color:#b51d17;" id="exampleModalLabel">Update your Bio ( {{ request.user.id }} )</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+    </div>
+
+    <!--  end update modal-->
+
+</div>
+</div>
+{% include 'scripts.html' %}

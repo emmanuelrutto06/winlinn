@@ -1,0 +1,85 @@
+{% include 'links.html' %}
+{% include 'includes/header.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+<div class="content my-5">
+    <hr>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="color:#b51d17;">Update Bio</h3>
+            </div>
+            <div class="card-body">
+                <form class="mt-5 mb-5 login-input" method="POST" style="color:blue;">
+                                    {% csrf_token %}
+
+                      <div class="row">
+                          <div class="col-6">
+                            {{ form.first_name|as_crispy_field }}
+                          </div>
+                          <div class="col-6">
+                            {{ form.last_name|as_crispy_field }}
+                          </div>
+                      </div>
+                    <div class="row">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="row">
+                          <div class="col-6">
+                            {{ form.time_zone|as_crispy_field }}
+                          </div>
+                          <div class="col-6">
+                            {{ form.country|as_crispy_field }}
+                          </div>
+                      </div>
+                     <div class="row">
+                          <div class="col-4">
+                            {{ form.phone|as_crispy_field }}
+                          </div>
+                          <div class="col-4">
+                            {{ form.additional_phone |as_crispy_field }}
+                          </div>
+                         <div class="col-4">
+                            {{ form.night_calls |as_crispy_field }}
+                          </div>
+                      </div>
+                    <div class="row">
+                          <div class="col-4">
+                            {{ form.city|as_crispy_field }}
+                          </div>
+                          <div class="col-4">
+                            {{ form.address |as_crispy_field }}
+                          </div>
+                         <div class="col-4">
+                            {{ form.zip_code |as_crispy_field }}
+                          </div>
+                      </div>
+
+                     <div class="row" style="padding-top:10px;">
+                        <div class="col-8">
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-2">
+                                </div>
+                                <div class="col-2">
+                                <button type="button" class="btn btn-secondary pull-right">
+                                <a href="{% url 'authentication:profile' %}">Close</a>
+                                </button>
+                                    </div>
+                                <div class="col-2">
+                                </div>
+                                <div class="col-6">
+                        <button class="btn btn-primary w-100 pull-right">Update</button>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

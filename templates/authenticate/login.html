@@ -1,0 +1,52 @@
+{% comment %} {% extends 'includes/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center h-100">
+        <div class="col-xl-6">
+            <div class="form-input-content">
+                <div class="card login-form mb-0">
+                    <div class="card-body pt-5">
+                        <a class="text-center"><h4>Login Now!</h4></a>
+                        {%if messages%}
+                        <div class="alert alert-danger">
+                            {% for message in messages %} {% if forloop.first %}
+                            {{message}} {% endif %} {% endfor %}
+                        </div>
+                        {%endif%}
+                        <form class="" method="POST">
+                            {% csrf_token %}
+                            {{ form |crispy }}
+                            <input type="submit" value="Login" class="btn btn-danger w-100">
+                        </form>
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <p class="mt-5 login-form__footer" style="color:black;">
+                                    No account?
+                                    <a
+                                            href="{% url 'authentication:sign_up' %}"
+                                            class="text-primary"
+                                    >Sign Up</a
+                                    >
+                                    Now!!
+                                </p>
+
+                                <p class="mt-5 login-form__footer" style="color:black;">
+                                    Forgot Password?
+                                    <a href="{% url 'reset_password' %}" class="text-primary">Reset!</a>
+                                </p>
+
+                            </div>
+                            <div class="col col-md-6">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%} {% endcomment %}

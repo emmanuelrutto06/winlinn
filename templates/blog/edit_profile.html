@@ -1,0 +1,53 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}} | {{ author.user.username }} {% endblock%}
+{% load crispy_forms_tags %}
+{% block custom_css %} {% endblock %}
+
+{% block body %}
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-primary" {% if message.tags %}
+         class="{{ message.tags }}" {% endif %}>{{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-6">
+                            {% if author.author_image %}
+                            <img class="rounded-circle" width="304" height="236" src="{{ author.author_image.url }}"
+                                 alt="">
+                            {% else %}
+                            <img class="p_image"
+                                 src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png"
+                                 alt="">
+                            {% endif %}
+
+                        </div>
+                        <div class="col-6">
+                            {{ form.author_image|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    {{ form.title|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form.profile|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Update Profile">
+    </div>
+
+</form>
+{% endblock %}

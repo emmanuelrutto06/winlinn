@@ -1,0 +1,248 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %} {{site_name}}  | {{post.title }} {% endblock %}
+{% block body %}
+<div class="container">
+    <div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
+        <div class="h-100 tofront">
+            <div class="row justify-content-between">
+                <div class="col-md-6 pt-6 pb-6 pr-6 align-self-center">
+
+
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-primary" {% if message.tags %}
+                             class="{{ message.tags }}" {% endif %}>{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <p class="text-uppercase font-weight-bold">
+                        <a class="text-danger" href="{% url 'blog:post-category' post.categories.slug %}">{{ post.categories }}</a>
+
+                    </p>
+                    <h1 class="display-4 secondfont mb-3 font-weight-bold">{{ post.title }}</h1>
+                    <div class="d-flex align-items-center">
+
+                        {% if post.author.author_image %}
+                        <img height="20" class="rounded-circle shadow" style="border-radius: 50%;"
+                             src="{{ post.author.author_image.url }}">
+                        {% else %}
+                        <img class="rounded-circle shadow" height="70"
+                             src="https://www.pngarts.com/files/11/Avatar-PNG-Transparent-Image.png" alt="">
+                        {% endif %}
+                        {% if post.author.id %}
+                        <a class="text-muted" href="{% url 'blog:author-profile' post.author.id %}">
+                            {{post.author.user.username }} ({{post.author.title}})
+                        </a>
+                        {% else %}
+                        <a class="text-muted" href="{% url 'blog:author-profile' 0 %}">{{ post.author.user.username }}
+                            ({{post.author.title}})</a>
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">
+                        {{post.created_on | timesince }} ago ; {{post.visit_count }} views
+                    </small>
+
+                </div>
+
+                <div class="col-md-6 pr-0">
+                    <img src="{{post.image_url }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container pt-4 pb-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-2 pr-4 mb-4 col-md-12">
+            <div class="sticky-top text-center">
+                <div class="text-muted">
+                    Share this
+                </div>
+                <div class="share d-inline-block">
+                    <!-- AddToAny BEGIN -->
+                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                        <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                        <a class="a2a_button_facebook"></a>
+                        <a class="a2a_button_twitter"></a>
+                    </div>
+                    <script async src="https://static.addtoany.com/menu/page.js"></script>
+                    <!-- AddToAny END -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <article class="article-post">
+                <p class="card-text ">{{ post.content | safe }}</p>
+            </article>
+            <div class="border p-5 bg-lightblue">
+                <div class="row justify-content-between">
+                    <div class="col-md-5 mb-2 mb-md-0">
+                        <h5 class="font-weight-bold secondfont">Become a member</h5>
+                        Get the latest news right in your inbox. We never spam!
+                    </div>
+                    <div class="col-md-7">
+                        <form action="{% url 'blog:member-subscription' %}" method="POST">
+                            <div class="row">
+
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    <input type="email" name='email' class="form-control"
+                                           placeholder="Enter your e-mail address" required>
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    <button type="submit" class="btn btn-success btn-block">Subscribe</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <form style="margin-top:50px;" action="{% url 'blog:comment' post.id  %}" method="POST">
+                {% csrf_token %}
+                <div class="row form-group">
+                    <div class="col">
+                        <input type="text" name='name' class="form-control" placeholder="Your Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name='body' id="exampleFormControlTextarea1" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-round">Submit Comment</button>
+            </form>
+            <br>
+
+
+            {% for p in post.comments.all reversed %}
+            {% if forloop.counter|divisibleby:2 %}
+            <div style="border-radius: 10px; margin: 5px; padding: 25px; background-color: #d8d8d8; ">
+                <p><strong>{{ p.name }}</strong> at {{ p.created_at }}</p>
+                <p style="padding: 20px; background-color: #f1f1f1; border-radius: 7px; border:0.5px solid #c5c5c5">{{
+                    p.body }}</p>
+            </div>
+            {% else %}
+            <div style="border-radius: 10px; margin: 5px; padding: 25px; background-color: #b3d3c0;">
+                <p><strong>{{ p.name }}</strong> at {{ p.created_at }}</p>
+                <p style="padding: 20px; background-color: #c5e6d3; border-radius: 7px; border:0.5px solid #c5c5c5">{{
+                    p.body }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<div class="container pt-4 pb-4">
+    <h5 class="font-weight-bold spanborder"><span>Read next</span></h5>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 mb-4 box-shadow h-xl-300">
+                <div style="background-image: url({% static 'blog/assets/img/demo/3.jpg' %}); ">
+                    <img src="{{ first.image_url }}"
+                         style="height: 200px; background-size: cover; background-repeat: no-repeat; width: 100%;"
+                         alt="">
+                </div>
+                <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+                    <h2 class="h4 font-weight-bold">
+                        {% if first.slug %}
+                        <a class="text-dark" href="{% url 'blog:single-post' first.slug %}"> {{ first.title}} </a>
+                        {% else %}
+                        <a class="text-dark" href="{% url 'blog:single-post'  0 %}"> {{ first.title}} </a>
+                        {% endif %}
+                    </h2>
+                    <p class="mb-3">
+                          {{first.content |truncatechars:150 |striptags}}
+                         <a href="{% url 'blog:single-post' first.slug %}" class="btn-green">Read More</a>
+                         {% comment %} <a href="{% url 'single-post' slug=post.slug %}" class="btn-green">>Read More</a> {% endcomment %}
+
+                    </p>
+                    <div>
+                        <small class="d-block">
+                            {% if first.author.author_image %}
+                            <img height="20" class="rounded-circle shadow" style="border-radius: 50%;"
+                                 src="{{ first.author.author_image.url }}">
+                            {% else %}
+                            <img class="rounded-circle shadow" height="20"
+                                 src="https://www.pngarts.com/files/11/Avatar-PNG-Transparent-Image.png" alt="">
+                            {% endif %}
+                            {% if first.author.id %}
+                            <a class="text-muted" href="{% url 'blog:author-profile' first.author.id %}">{{first.author.user.username}}</a>
+                            {% else %}
+                            <a class="text-muted" href="{% url 'blog:author-profile' 0 %}">{{first.author.user.username}}</a>
+                            {% endif %}
+                        </small>
+                        <small class="text-muted">{{ first.created_on | timesince }} ago . {{first.visit_count}}
+                            views</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="flex-md-row mb-4 box-shadow h-xl-300">
+                {% for p in last %}
+                <div class="mb-3 d-flex align-items-center">
+                    <img height="80" src="{{p.image_url}}">
+                    <div class="pl-3">
+                        <h2 class="mb-2 h6 font-weight-bold">
+
+                            {% if p.slug %}
+                            <a class="text-dark" href="{% url 'blog:single-post' p.slug %}">{{p.title}}</a>
+                            {% else %}
+                            <a class="text-dark" href="{% url 'blog:single-post'  0 %}"> {{ first.title}} </a>
+
+                            {% endif %}
+                        </h2>
+                        <div class="card-text text-muted small">
+                            {% if p.author.author_image %}
+                            <img class="rounded-circle shadow" height="20" style="border-radius: 50%;"
+                                 src="{{ p.author.author_image.url }}">
+                            {% else %}
+                            <img class="rounded-circle shadow" height="20"
+                                 src="https://www.pngarts.com/files/11/Avatar-PNG-Transparent-Image.png" alt="">
+                            {% endif %}
+                            {% if post.author.id %}
+                            <a class="text-muted" href="{% url 'blog:author-profile' p.author.id %}">
+                                {{ p.author.user.username }}</a> in
+                            <a class="text-dark" href="{% url 'blog:post-category' p.slug %}">
+                                {{p.categories }}
+                            </a>
+                            {% else %}
+                            <a class="text-muted" href="{% url 'blog:author-profile' 0 %}">{{ p.author.user.username
+                                }}</a> in <a class="text-dark" href="{% url 'blog:post-category' p.slug %}">{{p.categories
+                            }} </a>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">{{ p.created_on | timesince }} ago . {{p.visit_count}} views</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

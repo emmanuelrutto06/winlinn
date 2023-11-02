@@ -1,0 +1,46 @@
+{% extends 'includes/base.html' %}
+{% block title %} {{site_name}} | {{category.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+{% if user.is_authenticated %}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="container">
+    <h2>Upload Image</h2>
+    <div class="form-group">
+
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                {{ form.name|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.image|as_crispy_field }}
+            </div>
+        </div>
+        {% if object.id %}
+        <div class="row">
+            <button class="btn btn-primary pull-right" type="submit">Update</button>
+        </div>
+        {% else %}
+        <div class="row">
+            <button class="btn btn-primary pull-right" type="submit">Upload</button>
+        </div>
+        {% endif %}
+
+    </div>
+    </div>
+</form>
+{% else %}
+    <form>
+        <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <h3> Sorry , you are not Authorized!</h3>
+            </div>
+        </div>
+        </div>
+        </form>
+{% endif %}
+{% endblock %}

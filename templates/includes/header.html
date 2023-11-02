@@ -1,0 +1,88 @@
+<!--------------------------------------
+NAVBAR
+--------------------------------------->
+<style>
+  a {
+    color: black !important; /* Remove the text underline */
+    text-decoration: none !important;
+    border-bottom: none !important; /* Remove the underline border */
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  a:hover {
+    color: red !important;
+  }
+</style>
+
+
+
+<nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'blog:home' %}"><strong>{{site_name}}</strong></a>
+        <a class="navbar-brand" href="{% url 'blog:home' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill"
+                 viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                <path fill-rule="evenodd"
+                      d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+            </svg>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto d-flex align-items-center">
+                {% for cat in topics %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:post-category' cat.slug %}">{{ cat }}</a>
+                </li>
+
+                {% endfor %}
+                <li class="nav-item">
+                    {% if cat_count > 4 %}
+                    <a class="nav-link" href="#"><span class="badge badge-secondary"> More Categories </span></a>
+                    {% endif %}
+                </li>
+
+                <li>
+<!--&lt;!&ndash;                    <form class="form-inline form-control-sm" method="GET" action="{% url 'blog:search' %}">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input class="form-control form-control-sm mr-sm-1 input-sm" id="form1" value="{{ search }}"&ndash;&gt;-->
+<!--&lt;!&ndash;                               type="search" name='q' placeholder="Search" aria-label="Search" required>&ndash;&gt;-->
+<!--                        <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit"><i-->
+<!--                                class="fa fa-search"></i></button>-->
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto d-flex align-items-center">
+                {% if request.user.is_authenticated %}
+                <li>
+                    <a class="nav-link" href="{% url 'authentication:logout' %}"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                {% else %}
+                {% comment %} <li class="nav-item highlight">
+                    <a class="nav-link" href="{% url 'authentication:login' %}"> Login Now </a>
+
+                </li> {% endcomment %}
+                {% endif %}
+                
+            </ul>
+<a href="https://www.youtube.com/channel/UC85UrvpP4UtMDhnOWVyYwCw?sub_confirmation=1" target="_blank">YouTube Channel</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.facebook.com/profile.php?id=61552498204633&__tn__=%3C" target="_blank">Facebook</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.facebook.com/profile.php?id=61552498204633&__tn__=%3C" target="_blank">Whatsapp</a>
+               &nbsp;&nbsp;&nbsp;&nbsp; <form action="/search" method="get">
+    <input type="text" name="q" placeholder="Search...">
+          &nbsp;<button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+<!--    <button type="submit">Search</button>-->
+  </form>
+        </div>
+    </div>
+
+</nav>
+<!-- End Navbar -->
+
